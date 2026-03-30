@@ -5,7 +5,6 @@ import ResponsePanel from './ResponsePanel';
 
 function App() {
   const [history, setHistory] = useState([]);
-  const [test, setTest] = useState("test");
   const [activeRequest, setActiveRequest] = useState({
     method: 'GET',
     url: 'https://jsonplaceholder.typicode.com/todos/1',
@@ -22,7 +21,7 @@ function App() {
       if (saved) {
         setHistory(JSON.parse(saved));
       }
-    } catch (e) {
+    } catch {
       console.error('Failed to load history');
     }
   }, []);
@@ -42,7 +41,7 @@ function App() {
       setHistory([]);
       try {
         localStorage.removeItem('apiTesterHistory');
-      } catch (e) { }
+      } catch { /* ignore */ }
     }
   };
 
@@ -51,7 +50,7 @@ function App() {
 
     try {
       new URL(activeRequest.url);
-    } catch (err) {
+    } catch {
       setResponse({
         error: true,
         message: 'Invalid URL formatted. Please include http:// or https://'
@@ -123,7 +122,7 @@ function App() {
       if (contentType && contentType.includes('application/json')) {
         try {
           responseData = JSON.parse(textResponse);
-        } catch (e) { }
+        } catch { /* ignore */ }
       }
 
       const result = {
